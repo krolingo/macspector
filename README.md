@@ -1,3 +1,72 @@
+# macspector.sh — macOS Background Log Inspector
+
+A menu-driven, terminal-based tool to investigate macOS background processes, memory pressure, and system daemons using the unified logging system.
+
+## ✅ Perfect For:
+- Diagnosing runaway Spotlight processes (`mds_stores`, `fseventsd`, `spotlightknowledged`)
+- Investigating RAM/swap pressure and slowdowns
+- Troubleshooting login and LaunchDaemon failures
+- Detecting metadata import crashes or indexing loops
+- Monitoring Time Machine or Backblaze behavior
+
+## 🔧 Features
+- Menu-based interactive CLI
+- Targeted `log show --predicate` queries for:
+  - Spotlight indexing and metadata importers
+  - FSEvents (filesystem change events)
+  - Swap & memory pressure (jetsam, vmpressure)
+  - Launchd service restarts
+  - APFS snapshot-related logs
+  - Backblaze agent issues and memory usage
+- Human-readable memory output via `ps aux`
+- Timestamped full log capture saved to `/tmp/macos_diagnostics_<timestamp>.log`
+- Optional "Run ALL" mode to batch execute all checks
+
+## 🖥️ Usage
+```bash
+chmod +x macspector.sh
+./macspector.sh         # defaults to 30m
+./macspector.sh 1h      # show logs from the past 1 hour
+```
+
+## 📋 Menu Overview
+```
+h) Help
+1)  Spotlight - spotlightknowledged
+2)  MDS - mds_stores
+3)  FSEvents - fseventsd
+4)  Backup - backupd
+5)  Swap and memory pressure
+6)  LaunchDaemon failures
+7)  Metadata worker crashes
+8)  High memory warnings (jetsam/highwater)
+9)  WindowServer issues
+10) User Login & LoginWindow
+11) APFS Snapshot logs
+12) Backblaze agent logs (+ memory usage)
+13) Run ALL
+q)  Quit
+```
+
+## 🧪 Example Output
+- Every section includes a `[Scanning...]` and `[Finished]` message
+- Backblaze memory usage is displayed like:
+  ```
+  PID: 23509   RSS: 345004   KB (337.00 MB)  CPU: 1.2   CMD: /Library/Backblaze/bzserv
+  ```
+
+## ⚠️ Notes
+- Run as `sudo` for full log access and completeness
+- Script output is saved automatically to `/tmp/macos_diagnostics_<timestamp>.log`
+- Works best on macOS 12+ (Monterey and newer)
+
+## 📁 License
+MIT License
+
+## 🔗 Repository
+[https://github.com/yourname/macspector](https://github.com/yourname/macspector)
+ 
+ ```bash
 #!/bin/bash
 # macspector.sh — macOS Background Log Inspector
 # https://github.com/yourname/macspector
@@ -126,3 +195,6 @@ while true; do
   esac
 
 done
+
+
+```
